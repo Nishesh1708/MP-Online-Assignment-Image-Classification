@@ -1,15 +1,7 @@
-"""Train a CNN on CIFAR-10.
 
-CIFAR-10 downloads automatically to ./data the first time you run this.
-
-Usage:
-    py train.py                 # full run (default 15 epochs)
-    py train.py --epochs 5
-    py train.py --smoke-test    # 1 epoch on a tiny subset, just to verify it runs
-"""
 import argparse
 import matplotlib
-matplotlib.use("Agg")  # write plots to file, no GUI needed
+matplotlib.use("Agg")  
 import matplotlib.pyplot as plt
 
 import torch
@@ -25,7 +17,7 @@ CLASSES = ["airplane", "automobile", "bird", "cat", "deer",
 
 
 def get_loaders(batch_size, smoke_test):
-    # Normalize with CIFAR-10 channel means/stds. Light augmentation on train.
+    
     mean = (0.4914, 0.4822, 0.4465)
     std = (0.2470, 0.2435, 0.2616)
     train_tf = T.Compose([
@@ -40,7 +32,7 @@ def get_loaders(batch_size, smoke_test):
     test_set = torchvision.datasets.CIFAR10("./data", train=False, download=True, transform=test_tf)
 
     if smoke_test:
-        # Use only a small slice so a full pass finishes in seconds.
+        
         train_set = Subset(train_set, range(512))
         test_set = Subset(test_set, range(256))
 
@@ -109,7 +101,7 @@ def main():
 
     print(f"\nBest test accuracy: {best_acc:.3f}  (model saved to cifar_cnn.pth)")
 
-    # Save training curves.
+    
     epochs = range(1, args.epochs + 1)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
     ax1.plot(epochs, history["train_loss"], label="train")
